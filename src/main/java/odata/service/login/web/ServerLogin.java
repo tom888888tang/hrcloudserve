@@ -62,7 +62,7 @@ public class ServerLogin extends HttpServlet {
 		String user_id = jsonObject.getString("User_id");
 		// String user_id = getParameter("12");
 		String password = jsonObject.getString("Password");
-		// String customer_id = jsonObject.getString("Customer_id");
+		String customer_id = jsonObject.getString("Customer_id");
 		Connection connection = null;
 		try {
 			InitialContext ctx = new InitialContext();
@@ -92,7 +92,7 @@ public class ServerLogin extends HttpServlet {
 			// }else{
 			// ip = req.getHeader("x-forwarded-for");
 			// }
-			String jwt = JWTFactory.getJWT(user);
+			String jwt = JWTFactory.getJWTByCustId(user, customer_id);
 			Gson gson = new Gson();
 			resp.setStatus(200);
 			PrintWriter out = resp.getWriter();

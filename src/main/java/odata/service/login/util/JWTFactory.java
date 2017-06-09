@@ -17,6 +17,7 @@ import persistence.User;
 public class JWTFactory {
 	public static final String sign_key = "hrcloud_sign_key";
 	public static final String session_name = "hrcloud_user_token";
+	public static final String SPILT_KEY = "|";
 	public static String getJWT(User user) {
 		Calendar cl = Calendar.getInstance();
 		cl.setTime(new Date());
@@ -27,6 +28,22 @@ public class JWTFactory {
 		claim.put("user", user);
 		byte[] key = sign_key.getBytes();
 		return Jwts.builder().setClaims(claim).setExpiration(exd).setSubject(user.getUser_id())
+				.signWith(SignatureAlgorithm.HS512, key).compact();
+
+	}
+	
+	
+	public static String getJWTByCustId(User user, String customId) {
+		Calendar cl = Calendar.getInstance();
+		cl.setTime(new Date());
+		cl.add(Calendar.MINUTE, 15);
+		Date exd = cl.getTime();
+		Map claim = new HashMap();
+		//user.setPassword("");
+		claim.put("user", user);
+		byte[] key = sign_key.getBytes();
+		String subject = user.getUser_id() + SPILT_KEY + customId;
+		return Jwts.builder().setClaims(claim).setExpiration(exd).setSubject(subject)
 				.signWith(SignatureAlgorithm.HS512, key).compact();
 
 	}
@@ -63,6 +80,18 @@ public class JWTFactory {
 	public static String getJWT_USER(String Jwt){
 		byte[] key = sign_key.getBytes();
 	
-		return Jwts.parser().setSigningKey(key).parseClaimsJws(Jwt).getBody().getSubject();
+		String subject = Jwts.parser().setSigningKey(key).parseClaimsJws(Jwt).getBody().getSubject();
+		
+		return subject.split(SPILT_KEY)[0];
+		
+	}
+	
+	public static String getJWT_CUSTOMER(String Jwt){
+		byte[] key = sign_key.getBytes();
+	
+		String subject = Jwts.parser().setSigningKey(key).parseClaimsJws(Jwt).getBody().getSubject();
+		
+		return subject.split(SPILT_KEY)[1];
+		
 	}
 }
