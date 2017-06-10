@@ -17,7 +17,7 @@ public class DSUtill {
 	private static Logger log = LoggerFactory.getLogger(DSUtill.class);
 	private static String SERVICE_NAME = "cloudhr_server";
 
-	public EntityManagerFactory getDS(String customerId) {
+	public static EntityManagerFactory getDS(String customerId) {
 		String jndiName = getJndiName(customerId);
 		try {
 			InitialContext ctx = new InitialContext();
@@ -35,7 +35,7 @@ public class DSUtill {
 		}
 	}
 
-	private String getJndiName(String customerId) {
+	private static String getJndiName(String customerId) {
 		return "java:comp/env/jdbc/DefaultDB";
 	}
 }
