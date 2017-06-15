@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<Context>  
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>  
+      
+    <Resource name="jdbc/DefaultDB"  
+       auth="Container"  
+       type="javax.sql.DataSource"  
+       driverClassName="com.mysql.cj.jdbc.Driver"  
+       url="jdbc:mysql://192.168.1.131/uulend_customer?characterEncoding=utf-8"  
+       username="root"  
+       password="julend131"  
+       maxActive="100"  
+       maxIdle="30"  
+       maxWait="10000" />  
+      
+</Context> 

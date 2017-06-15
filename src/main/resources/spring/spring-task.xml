@@ -5,8 +5,8 @@
 	<task:scheduler id="hcpTask" pool-size="8" />
 
 	<task:scheduled-tasks scheduler="hcpTask">
-		<!-- 跑批測試 -->
-		<task:scheduled ref="batchTestTask" method="printLog" cron="0 0 10 * * ?"  />
+		<!-- 删除数据库对应关系缓存 -->
+		<task:scheduled ref="clearDBMapTask" method="clearMap" cron="0 0/10 * * * ?"  />
 		
 	</task:scheduled-tasks>
 </beans>

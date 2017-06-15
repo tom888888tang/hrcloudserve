@@ -9,7 +9,8 @@
         <class>persistence.User_Score_Key</class>
         <class>persistence.SRule_Key</class>        
         <class>persistence.UserSR</class> 
-        <class>persistence.Wechat_AccToken</class>          
+        <class>persistence.Wechat_AccToken</class>
+        <class>persistence.Customer_Datasource</class>         
                     
         <properties>
             <property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
