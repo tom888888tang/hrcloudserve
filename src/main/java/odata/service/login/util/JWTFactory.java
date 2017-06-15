@@ -17,7 +17,7 @@ import persistence.User;
 public class JWTFactory {
 	public static final String sign_key = "hrcloud_sign_key";
 	public static final String session_name = "hrcloud_user_token";
-	public static final String SPILT_KEY = "|";
+	public static final String SPILT_KEY = "\\|";
 	public static String getJWT(User user) {
 		Calendar cl = Calendar.getInstance();
 		cl.setTime(new Date());
