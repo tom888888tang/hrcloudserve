@@ -7,13 +7,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import core.DSUtill;
+
 @Component
-public class BatchTestTask {
-	private static Logger log = LoggerFactory.getLogger(BatchTestTask.class);
+public class ClearDBMapTask {
+	private static Logger log = LoggerFactory.getLogger(ClearDBMapTask.class);
 	private SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd hh:mm:ss");
 	
-	public void printLog() {
+	public void clearMap() {
+		DSUtill.dbMap.clear();
 		
-		log.info("=========跑批开始{}============",sdf.format(Calendar.getInstance().getTime()));
+		log.info("=========删除缓存完成{}============",sdf.format(Calendar.getInstance().getTime()));
 	}
 }
