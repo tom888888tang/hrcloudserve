@@ -22,6 +22,9 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
+
+import core.DSUtill;
+
 import org.apache.cxf.helpers.IOUtils;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -63,19 +66,20 @@ public class ServerLogin extends HttpServlet {
 		// String user_id = getParameter("12");
 		String password = jsonObject.getString("Password");
 		String customer_id = jsonObject.getString("Customer_id");
-		Connection connection = null;
-		try {
-			InitialContext ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
-
-			Map properties = new HashMap();
-			properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
-
-			emf = Persistence.createEntityManagerFactory("cloudhr_server", properties);
-			// emf = Persistence.createEntityManagerFactory("cloudhr_server");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+//		Connection connection = null;
+//		try {
+//			InitialContext ctx = new InitialContext();
+//			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
+//
+//			Map properties = new HashMap();
+//			properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
+//
+//			emf = Persistence.createEntityManagerFactory("cloudhr_server", properties);
+//			// emf = Persistence.createEntityManagerFactory("cloudhr_server");
+//		} catch (NamingException e) {
+//			e.printStackTrace();
+//		}
+		emf = DSUtill.getDS(customer_id);
 		// EntityManagerFactory factory =
 		// Persistence.createEntityManagerFactory("cloudhr_server");
 		EntityManager em = emf.createEntityManager();
