@@ -18,6 +18,7 @@
 			     <server>tomcat7</server>
 <!-- 			     <path>/</path> -->
 			     <uriEncoding>UTF-8</uriEncoding>
+			     <contextFile>src/main/webapp/WEB-INF/context.xml</contextFile>
 			  </configuration>
 	      </plugin>
 	  </plugins>
@@ -284,6 +285,14 @@
                 <version>0.1.2</version>
             </dependency>
             <!-- logback End -->
+            
+             <!-- Mysql Driver Begin -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>6.0.5</version>
+            </dependency>
+            <!-- Mysql Driver End -->
 	</dependencies>
 
 
