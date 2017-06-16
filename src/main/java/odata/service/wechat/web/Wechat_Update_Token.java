@@ -26,6 +26,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import core.DSUtill;
+
 import org.apache.cxf.helpers.IOUtils;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
 import org.json.JSONObject;
@@ -70,20 +72,22 @@ public class Wechat_Update_Token extends HttpServlet{
 		//JSONObject wechat_user = new JSONObject(Util.get_wechat_userinfo(js.getString("openid"),js.getString("access_token")));
 		//String user_id = getParameter("12");
 		//String customer_id = jsonObject.getString("Customer_id");
-		Connection connection = null;
-        try {
-            InitialContext ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
-
-            Map properties = new HashMap();
-            properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
-            
-            emf = Persistence.createEntityManagerFactory("cloudhr_server",properties);
-            //emf = Persistence.createEntityManagerFactory("cloudhr_server");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+		String token = (String)req.getHeader(JWTFactory.session_name);
+//		Connection connection = null;
+//        try {
+//            InitialContext ctx = new InitialContext();
+//            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
+//
+//            Map properties = new HashMap();
+//            properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
+//            
+//            emf = Persistence.createEntityManagerFactory("cloudhr_server",properties);
+//            //emf = Persistence.createEntityManagerFactory("cloudhr_server");
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
 		//EntityManagerFactory factory = Persistence.createEntityManagerFactory("cloudhr_server");
+		emf = DSUtill.getDS(JWTFactory.getJWT_CUSTOMER(token));
 		EntityManager em = emf.createEntityManager();		
 		EntityTransaction newTx = em.getTransaction();
 	    newTx.begin();

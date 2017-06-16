@@ -21,9 +21,6 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 
 import com.google.gson.Gson;
-
-import core.DSUtill;
-
 import org.apache.cxf.helpers.IOUtils;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -63,27 +60,25 @@ public class SFlearningOdata extends HttpServlet{
 //		String password = jsonObject.getString("Password");
 		//String customer_id = jsonObject.getString("Customer_id");
 		resp.setContentType("application/json; odata.metadata=minimal;charset=utf-8");
-		String token = (String)req.getHeader(JWTFactory.session_name);
 	    
-//		Connection connection = null;
-//        try {
-//            InitialContext ctx = new InitialContext();
-//            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
-//
-//            Map properties = new HashMap();
-//            properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
-//            emf = Persistence.createEntityManagerFactory("cloudhr_server", properties);
-//            //emf = Persistence.createEntityManagerFactory("cloudhr_server");
-//        } catch (NamingException e) {
-//            e.printStackTrace();
-//        }
-		emf = DSUtill.getDS(JWTFactory.getJWT_CUSTOMER(token));
+		Connection connection = null;
+        try {
+            InitialContext ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
+
+            Map properties = new HashMap();
+            properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
+            emf = Persistence.createEntityManagerFactory("cloudhr_server", properties);
+            //emf = Persistence.createEntityManagerFactory("cloudhr_server");
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
 		//EntityManagerFactory factory = Persistence.createEntityManagerFactory("cloudhr_server");
 		EntityManager em = emf.createEntityManager();		
 		EntityTransaction newTx = em.getTransaction();
 	    newTx.begin();
 	    HttpSession session = req.getSession(true);
-	    String query = "select u from User u where u.user_id = '" + JWTFactory.getJWT_USER(token) + "' "; 
+	    String query = "select u from User u where u.user_id = '" + JWTFactory.getJWT_USER((String)req.getHeader(JWTFactory.session_name)) + "' "; 
         List<User> result = em.createQuery(query).setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
         newTx.commit();
         if(result.size() == 1){
