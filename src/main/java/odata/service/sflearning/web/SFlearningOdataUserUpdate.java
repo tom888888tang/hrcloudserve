@@ -26,6 +26,8 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import core.DSUtill;
+
 import org.apache.cxf.helpers.IOUtils;
 import org.eclipse.persistence.config.HintValues;
 import org.eclipse.persistence.config.PersistenceUnitProperties;
@@ -64,18 +66,21 @@ public class SFlearningOdataUserUpdate extends HttpServlet{
 //		//String user_id = getParameter("12");
 //		String password = jsonObject.getString("Password");
 		//String customer_id = jsonObject.getString("Customer_id");
-		Connection connection = null;
-        try {
-            InitialContext ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
-
-            Map properties = new HashMap();
-            properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
-            emf = Persistence.createEntityManagerFactory("cloudhr_server", properties);
-            //emf = Persistence.createEntityManagerFactory("cloudhr_server");
-        } catch (NamingException e) {
-            e.printStackTrace();
-        }
+		String token = (String)req.getHeader(JWTFactory.session_name);
+	    
+//		Connection connection = null;
+//        try {
+//            InitialContext ctx = new InitialContext();
+//            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/DefaultDB");
+//
+//            Map properties = new HashMap();
+//            properties.put(PersistenceUnitProperties.NON_JTA_DATASOURCE, ds);
+//            emf = Persistence.createEntityManagerFactory("cloudhr_server", properties);
+//            //emf = Persistence.createEntityManagerFactory("cloudhr_server");
+//        } catch (NamingException e) {
+//            e.printStackTrace();
+//        }
+		emf = DSUtill.getDS(JWTFactory.getJWT_CUSTOMER(token));
 		//EntityManagerFactory factory = Persistence.createEntityManagerFactory("cloudhr_server");
 		EntityManager em = emf.createEntityManager();		
 		EntityTransaction newTx = em.getTransaction();
